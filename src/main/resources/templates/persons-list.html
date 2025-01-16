@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Personas</title>
+</head>
+<body>
+<h1>Lista de Personas</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Person ID</th>
+        <th>Person Name</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="person : ${persons}">
+        <td th:text="${person.personId}"></td>
+        <td th:text="${person.personName}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
