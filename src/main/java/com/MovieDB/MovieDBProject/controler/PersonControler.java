@@ -1,6 +1,7 @@
 package com.MovieDB.MovieDBProject.controler;
-import com.MovieDB.MovieDBProject.dao.PersonRepo;
+
 import com.MovieDB.MovieDBProject.model.Person;
+import com.MovieDB.MovieDBProject.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,21 +12,19 @@ import java.util.List;
 
 @Controller
 public class PersonControler {
+
     @Autowired
-    private PersonRepo personRepo;
+    private PersonService personService;
 
     @GetMapping("/persons")
-    public String getAllPersons(@RequestParam(required = false) String name, Model model) {
-        List<Person> persons;
-
+    public String getAllPersons(@RequestParam(value = "name", required = false) String name, Model model) {
         if (name != null && !name.isEmpty()) {
-            persons = personRepo.findByPersonNameContainingIgnoreCase(name);
-        } else {
-            persons = personRepo.findAll();
+            List<Person> persons = personService.getPersonsByName(name);
+            model.addAttribute("persons", persons);
         }
 
-        model.addAttribute("persons", persons);
-        model.addAttribute("searchName", name); // Para mostrar el nombre buscado en la vista
+
+        model.addAttribute("searchPerformed", name != null && !name.isEmpty());
         return "persons-list";
     }
 }

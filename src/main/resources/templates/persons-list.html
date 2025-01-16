@@ -7,29 +7,31 @@
 </head>
 <body>
 <h1>Buscar Actores</h1>
-
-<form method="get" action="/persons">
-    <input type="text" name="name" placeholder="Buscar por nombre" value="${searchName}">
+<form action="/persons" method="get">
+    <label for="name">Nombre del Actor:</label>
+    <input type="text" id="name" name="name" placeholder="Escribe un nombre...">
     <button type="submit">Buscar</button>
 </form>
 
-<div th:if="${persons != null}">
-    <h2 th:if="${persons.isEmpty()}">No hi ha resultats.</h2>
+<div th:if="${searchPerformed}">
+    <div th:if="${persons != null}">
+        <h2 th:if="${persons.isEmpty()}">No se encontraron resultados.</h2>
 
-    <table th:if="${!persons.isEmpty()}" border="1">
-        <thead>
-        <tr>
-            <th>Person ID</th>
-            <th>Person Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="person : ${persons}">
-            <td th:text="${person.personId}"></td>
-            <td th:text="${person.personName}"></td>
-        </tr>
-        </tbody>
-    </table>
+        <table th:if="${!persons.isEmpty()}" border="1">
+            <thead>
+            <tr>
+                <th>Person ID</th>
+                <th>Person Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="person : ${persons}">
+                <td th:text="${person.personId}"></td>
+                <td th:text="${person.personName}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </body>
 </html>
