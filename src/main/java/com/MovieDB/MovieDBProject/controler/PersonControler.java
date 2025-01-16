@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -14,11 +15,17 @@ public class PersonControler {
     private PersonRepo personRepo;
 
     @GetMapping("/persons")
-    public String getAllPersons(Model model) {
+    public String getAllPersons(@RequestParam(required = false) String name, Model model) {
+        List<Person> persons;
 
-        List<Person> persons = personRepo.findAll();
+        if (name != null && !name.isEmpty()) {
+            persons = personRepo.findByPersonNameContainingIgnoreCase(name);
+        } else {
+            persons = personRepo.findAll();
+        }
 
         model.addAttribute("persons", persons);
+        model.addAttribute("searchName", name); // Para mostrar el nombre buscado en la vista
         return "persons-list";
     }
 }
